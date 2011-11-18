@@ -29,12 +29,14 @@ namespace Log
 	LoggerFactory();
 	~LoggerFactory();
 
-	Logger * build(std::string id = "main");
-	Logger * build(std::string filename, std::string id = "main");
-	Logger * build(Format * format, std::string id = "main");
-	Logger * build(std::string filename, Format * format, std::string id = "main");
-	Logger * build(std::map<PRIORITY, Format *>, std::string id = "main");
-	Logger * build(std::map<PRIORITY, std::string>, std::map<PRIORITY, Format *>, std::string id = "main");
+	Logger * get(std::string id = "main");
+
+	Logger * build(std::string id);
+	Logger * build(std::string filename, std::string id);
+	Logger * build(Format * format, std::string id);
+	Logger * build(std::string filename, Format * format, std::string id);
+	Logger * build(std::map<PRIORITY, Format *>, std::string id);
+	Logger * build(std::map<PRIORITY, std::string>, std::map<PRIORITY, Format *>, std::string id);
   };
 }
 #endif

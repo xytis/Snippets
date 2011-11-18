@@ -90,6 +90,14 @@ namespace Log
 	
   }
 
+  Logger * LoggerFactory::get(std::string id)
+  {
+	Logger * logger = m_running_loggers[id];
+	if (logger)
+	  return logger;
+	return this->build(id);
+  }
+
   Logger * LoggerFactory::build(std::string id)
   {
 	Logger * logger = m_running_loggers[id];
@@ -155,7 +163,7 @@ namespace Log
 	if (logger)
 	{
 	  //Warn user that such logger exists, recreate it
-	  this->build()->log(WARNING) << "Logger " << id << " exists. Recreating logger with new configuration." << std::endl;
+	  this->get()->log(WARNING) << "Logger " << id << " exists. Recreating logger with new configuration." << std::endl;
 	}
 	LogChannel * error = new LogChannel(default_output(ERROR), formats[ERROR]);
 	m_channel_heap.push_back(error);
@@ -178,7 +186,7 @@ namespace Log
 	if (logger)
 	{
 	  //Warn user that such logger exists, recreate it
-	  this->build()->log(WARNING) << "Logger " << id << " exists. Recreating logger with new configuration." << std::endl;
+	  this->get()->log(WARNING) << "Logger " << id << " exists. Recreating logger with new configuration." << std::endl;
 	}
 
 	std::ostream * error_file = m_output_heap[filenames[ERROR]];
@@ -188,7 +196,7 @@ namespace Log
 	  if (!error_file)
 	  {
 		//Rollback to default_output, warn user via main logger.
-		this->build()->log(ERROR) << "Error creating logger " << id << ". File " << filenames[ERROR] << " not created. Falling back to default output." << std::endl;
+		this->get()->log(ERROR) << "Error creating logger " << id << ". File " << filenames[ERROR] << " not created. Falling back to default output." << std::endl;
 		error_file = default_output(ERROR);
 	  }
 	  m_output_heap[filenames[ERROR]] = error_file;
@@ -200,7 +208,7 @@ namespace Log
 	  if (!warning_file)
 	  {
 		//Rollback to default_output, warn user via main logger.
-		this->build()->log(ERROR) << "Error creating logger " << id << ". File " << filenames[WARNING] << " not created. Falling back to default output." << std::endl;
+		this->get()->log(ERROR) << "Error creating logger " << id << ". File " << filenames[WARNING] << " not created. Falling back to default output." << std::endl;
 		warning_file = default_output(WARNING);
 	  }
 	  m_output_heap[filenames[WARNING]] = warning_file;
@@ -212,7 +220,7 @@ namespace Log
 	  if (!info_file)
 	  {
 		//Rollback to default_output, warn user via main logger.
-		this->build()->log(ERROR) << "Error creating logger " << id << ". File " << filenames[INFO] << " not created. Falling back to default output." << std::endl;
+		this->get()->log(ERROR) << "Error creating logger " << id << ". File " << filenames[INFO] << " not created. Falling back to default output." << std::endl;
 		info_file = default_output(INFO);
 	  }
 	  m_output_heap[filenames[INFO]] = info_file;
@@ -224,7 +232,7 @@ namespace Log
 	  if (!debug_file)
 	  {
 		//Rollback to default_output, warn user via main logger.
-		this->build()->log(ERROR) << "Error creating logger " << id << ". File " << filenames[DEBUG] << " not created. Falling back to default output." << std::endl;
+		this->get()->log(ERROR) << "Error creating logger " << id << ". File " << filenames[DEBUG] << " not created. Falling back to default output." << std::endl;
 		debug_file = default_output(DEBUG);
 	  }
 	  m_output_heap[filenames[DEBUG]] = debug_file;
