@@ -21,9 +21,8 @@ namespace Log
 	LogChannel(std::ostream * output, Format * format);
   public:
 	friend class LoggerFactory;
-	std::ostream & operator << (const char[]); //Adds format to begining of line
-	std::ostream & operator << (const std::string &); //Adds format to begining of line
-	std::ostream & operator << (const double &);      //Adds format to begining of line
+
+	std::ostream & get();  //Adds format to the stream
   };
 
   class Logger
@@ -46,7 +45,7 @@ namespace Log
 	void info(std::string msg);
 	void debug(std::string msg);
 
-	LogChannel & log(PRIORITY priority);
+	std::ostream & log(PRIORITY priority);
   };
 }
 

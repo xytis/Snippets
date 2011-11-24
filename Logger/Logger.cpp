@@ -7,24 +7,9 @@ namespace Log
 	//NOP
   }
 
-  std::ostream & LogChannel::operator << (const char msg[])
+  std::ostream & LogChannel::get()
   {
 	m_format->apply(m_output);
-	(*m_output) << msg;
-	return (*m_output);
-  }
-  
-  std::ostream & LogChannel::operator << (const std::string & msg)
-  {
-	m_format->apply(m_output);
-	(*m_output) << msg;
-	return (*m_output);
-  }
-
-  std::ostream & LogChannel::operator << (const double & msg)
-  {
-	m_format->apply(m_output);
-	(*m_output) << msg;
 	return (*m_output);
   }
 
@@ -63,43 +48,43 @@ namespace Log
 
   void Logger::error(std::string msg)
   {
-	(*m_error) << msg << std::endl;
+	m_error->get() << msg << std::endl;
   }
   
   void Logger::warning(std::string msg)
   {
-	(*m_warning) << msg << std::endl;
+	m_warning->get() << msg << std::endl;
   }
   
   void Logger::info(std::string msg)
   {
-	(*m_info) << msg << std::endl;
+	m_info->get() << msg << std::endl;
   }
   
   void Logger::debug(std::string msg)
   {
-	(*m_debug) << msg << std::endl;
+	m_debug->get() << msg << std::endl;
   }
 
-  LogChannel & Logger::log(PRIORITY priority)
+  std::ostream & Logger::log(PRIORITY priority)
   {
 	switch (priority)
 	{
 	  case ERROR:
 	  {
-		return (*m_error);
+		return m_error->get();
 	  }
 	  case WARNING:
 	  {
-		return (*m_warning);
+		return m_warning->get();
 	  }
 	  case INFO:
 	  {
-		return (*m_info);
+		return m_info->get();
 	  }
 	  case DEBUG:
 	  {
-		return (*m_debug);
+		return m_debug->get();
 	  }
 	}
   }
