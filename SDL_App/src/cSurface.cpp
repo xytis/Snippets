@@ -13,7 +13,7 @@ SDL_Surface* cSurface::load(char* filename) {
 	return NULL;
   }
   
-  final_surface = SDL_DisplayFormat(temp_surface);
+  final_surface = SDL_DisplayFormatAlpha(temp_surface);
   SDL_FreeSurface(temp_surface);
   
   return final_surface;
@@ -53,6 +53,17 @@ bool cSurface::draw(SDL_Surface* src, int src_x, int src_y, int src_w, int src_h
   src_r.h = src_h;
   
   SDL_BlitSurface(src, &src_r, dest, &dest_r);
+  
+  return true;
+}
+
+bool cSurface::transparent(SDL_Surface* dest, int r, int g, int b)
+{
+  if(dest == NULL) {
+	return false;
+  }
+  
+  SDL_SetColorKey(dest, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(dest->format, r, g, b));
   
   return true;
 }

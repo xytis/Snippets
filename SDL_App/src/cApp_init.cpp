@@ -6,13 +6,15 @@ bool cApp::init(int argc, char* argv[])
 	return false;
   }
   
-  if((m_display = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
+  if((m_display = SDL_SetVideoMode(WWIDTH, WHEIGHT, COLORBIT, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
 	return false;
   }
 
-  if((m_temp = cSurface::load("/home/xytis/Documents/Programing/Snippets/SDL_App/build/tileset.png")) == NULL) {
+  if(cArea::current_area.load("example.area") == false) {
 	return false;
   }
+  
+  SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
   
   return true;
 }

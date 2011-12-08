@@ -3,8 +3,16 @@
 
 #include <SDL/SDL.h>
 
+#include "define.hpp"
+
 #include "cEvent.hpp"
+
 #include "cSurface.hpp"
+#include "cAnimation.hpp"
+#include "cEntity.hpp"
+
+#include "cArea.hpp"
+#include "cCamera.hpp"
 
 class cApp : public cEvent
 {
@@ -13,6 +21,9 @@ private:
 
   SDL_Surface * m_display;
   SDL_Surface * m_temp;
+
+  cEntity one;
+  cEntity two;
 
 public:
   cApp();
@@ -26,6 +37,7 @@ public:
 
   //Event redefinitions (see cEvent.hpp)
   void OnExit();
+  void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
 };
 
 #endif

@@ -13,6 +13,9 @@ public:
 
   static bool draw(SDL_Surface* src, SDL_Surface* dest, int dest_x, int dest_y);
   static bool draw(SDL_Surface* src, int src_x, int src_y, int src_w, int src_h, SDL_Surface* dest, int dest_x, int dest_y);
+
+  static bool transparent(SDL_Surface* dest, int r, int g, int b);
+  
 };
 
 #endif

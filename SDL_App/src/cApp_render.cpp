@@ -2,6 +2,10 @@
 
 void cApp::render()
 {
-  cSurface::draw(m_temp, 32, 32, 32, 32, m_display, 0, 0);
+  for(int i = 0;i < cEntity::entity_array.size();i++) {
+	if(!cEntity::entity_array[i]) continue;	
+	cEntity::entity_array[i]->render(m_display);
+  }
+  cArea::current_area.render(m_display, cCamera::current_camera.x(), cCamera::current_camera.y());
   SDL_Flip(m_display);
 }
