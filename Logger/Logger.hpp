@@ -3,49 +3,68 @@
 
 #include <iostream>
 #include <string>
+#include <stdexcept>
+#include <cstring>
 
-#include "Format.hpp"
-#include "Priority.hpp"
+#define log Log::Logger::Instance()->get_stream_with_header(Log::INFO)
+#define err Log::Logger::Instance()->get_stream_with_header(Log::ERROR)
+#define warn Log::Logger::Instance()->get_stream_with_header(Log::WARNING)
+#define debug Log::Logger::Instance()->get_stream_with_header(Log::DEBUG) << '[' << __FILE__ << ' ' << __LINE__ << ']'
+
+#define logf(format, ...) Log::Logger::Instance()->formated_output(Log::INFO, format, __VA_ARGS__)
+#define errf(format, ...) Log::Logger::Instance()->formated_output(Log::ERROR, format, __VA_ARGS__)
+#define warnf(format, ...) Log::Logger::Instance()->formated_output(Log::WARNING, format, __VA_ARGS__)
+#define debugf(format, ...) Log::Logger::Instance()->formated_debug(__FILE__, __LINE__, format, __VA_ARGS__)
 
 namespace Log
 {
-
-  class LoggerFactory;
-
-  class LogChannel
+  enum PRIORITY
   {
-  private:
-	std::ostream * m_output;
-	Format * m_format;
-  protected:
-	LogChannel(std::ostream * output, Format * format);
-  public:
-	friend class LoggerFactory;
-
-	std::ostream & get();  //Adds format to the stream
+    ERROR,
+    WARNING,
+    INFO,
+    DEBUG
   };
+
+  std::string empty(PRIORITY priority);
+  std::string date(PRIORITY priority);
+  std::string date_priority(PRIORITY priority); //Default
 
   class Logger
   {
   private:
-	LogChannel * m_error;
-	LogChannel * m_warning;
-	LogChannel * m_info;
-	LogChannel * m_debug;
+    std::ostream * log_stream;
+    std::ostream * err_stream;
+    std::ostream * warn_stream;
+    std::ostream * debug_stream;
 
-  protected:
-	Logger(LogChannel * error, LogChannel * warning, LogChannel * info, LogChannel * debug);
+    std::string (*header) (PRIORITY priority);
+
+    bool header_flag;
+
+    //Singleton part
+	Logger();
+    ~Logger();
+    Logger(Logger &) {}; //Empty
+    Logger& operator=(Logger const&) {}; //Empty
+
+    static Logger * m_instance;
   public:
-	friend class LoggerFactory;
+    static Logger * Instance();
+    static void destroy();
+    
+    std::ostream & get_stream(PRIORITY priority);
 
-	void log(std::string msg, PRIORITY priority);
+    std::ostream & get_stream_with_header(PRIORITY priority);
 
-	void error(std::string msg);
-	void warning(std::string msg);
-	void info(std::string msg);
-	void debug(std::string msg);
-
-	std::ostream & log(PRIORITY priority);
+    void set_output(PRIORITY priority, std::ostream * output);
+    void set_header(std::string (*header_generator) (PRIORITY));
+    
+    void formated_output(PRIORITY priority, const char *s);
+    template<typename T, typename... Args>
+    void formated_output(PRIORITY priority,const char *s, T value, Args... args);
+    template<typename... Args>
+    void formated_debug(const char *s, int line, const char *f, Args... args);
   };
 }
 
