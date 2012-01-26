@@ -1,1 +1,6 @@
- 
+Simple generic logger based on factory class architecture.
+
+  usage:
+  #include "cLoggerSystem.hpp"
+  
+  LoggerSystem.Logger
