@@ -52,11 +52,11 @@ namespace Log
 
   Logger::Logger():
     log_stream(&std::cout),
+    err_stream(&std::cout),
     warn_stream(&std::cout),
     debug_stream(&std::cout),
-    err_stream(&std::cout),
-    header_flag(true),
-    header(empty)
+    header(empty),
+    header_flag(true)
   {
     
   }
@@ -160,5 +160,4 @@ namespace Log
     std::cerr << new_format << std::endl;
     formated_output(DEBUG, new_format, s, line, args...);
   }
-
 }

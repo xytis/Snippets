@@ -8,16 +8,27 @@ std::string header (Log::PRIORITY)
 }
 
 int main()
-{  
+{
+  //Works
   log << "Some random info" << 4 << std::endl;
   err << "Some error" << std::endl;
   warn << "Some warning" << std::endl;
   debug << "debug text" << std::endl;
-  
-  logf("Format string %s\n", "string");
+
+  Log::Logger::Instance()->formated_output(Log::DEBUG,"debug text\n");
+
+  //Not working...
+  /*
+  Log::Logger::Instance()->formated_output(Log::WARNING,"THE WORLD WILL END IN %f SEC\n", 5);
+  Log::Logger::Instance()->formated_output(Log::ERROR,"%d %d %d\n", 2112, 12, 21);
+  */
+  //Not works, WHY??
+  /*
+  logf("Simple String");
   errf("%d %d %d\n", 2112, 12, 21);
   warnf("THE WORLD WILL END IN %f SEC\n", 5);
   debugf("debug text\n");
+
 
   std::ofstream file("temp");
   
@@ -29,10 +40,10 @@ int main()
   warn << "Some warning";
   debug << "debug text";
   
-  logf("Format string %s\n", "string");
+  logf("Simple String");
   errf("%d %d %d\n", 2112, 12, 21);
   warnf("THE WORLD WILL END IN %f SEC\n", 5);
   debugf("debug text\n");
-  
+*/
   return 0;
 }

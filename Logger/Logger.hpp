@@ -11,10 +11,10 @@
 #define warn Log::Logger::Instance()->get_stream_with_header(Log::WARNING)
 #define debug Log::Logger::Instance()->get_stream_with_header(Log::DEBUG) << '[' << __FILE__ << ' ' << __LINE__ << ']'
 
-#define logf(format, ...) Log::Logger::Instance()->formated_output(Log::INFO, format, __VA_ARGS__)
-#define errf(format, ...) Log::Logger::Instance()->formated_output(Log::ERROR, format, __VA_ARGS__)
-#define warnf(format, ...) Log::Logger::Instance()->formated_output(Log::WARNING, format, __VA_ARGS__)
-#define debugf(format, ...) Log::Logger::Instance()->formated_debug(__FILE__, __LINE__, format, __VA_ARGS__)
+#define logf(...) Log::Logger::Instance()->formated_output(Log::INFO, __VA_ARGS__)
+#define errf(...) Log::Logger::Instance()->formated_output(Log::ERROR, __VA_ARGS__)
+#define warnf(...) Log::Logger::Instance()->formated_output(Log::WARNING, __VA_ARGS__)
+#define debugf(...) Log::Logger::Instance()->formated_debug(__FILE__, __LINE__, __VA_ARGS__)
 
 namespace Log
 {
@@ -45,8 +45,8 @@ namespace Log
     //Singleton part
 	Logger();
     ~Logger();
-    Logger(Logger &) {}; //Empty
-    Logger& operator=(Logger const&) {}; //Empty
+    Logger(Logger &); //Empty
+    Logger& operator=(Logger const&); //Empty
 
     static Logger * m_instance;
   public:
@@ -65,7 +65,7 @@ namespace Log
     void formated_output(PRIORITY priority,const char *s, T value, Args... args);
     template<typename... Args>
     void formated_debug(const char *s, int line, const char *f, Args... args);
-  };
+  };  
 }
 
 #endif
