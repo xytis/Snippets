@@ -4,6 +4,8 @@ project (LoggerTest)
 
 enable_testing()
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=gnu++0x")
+
 link_libraries(cpptest)
 file(GLOB LoggerTest_SRC
     "*.hpp"
