@@ -11,11 +11,15 @@ Usage
 =====
 
     DZ_ENTRY;
---or--
+
+or
+
     DZ_ENTRY_MSG("message");
 
 followed by
+
     DZ_MIDDLE;
 
 ended with
+
     DZ_EXIT;
