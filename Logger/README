@@ -20,3 +20,8 @@ This alllows:
   errf("%d %d %d", year, month, day);
   warnf("THE WORLD WILL END IN %f SEC", sec);
   debugf("debug text");
+
+TODO: 
+Make threading safe.
+  Add mutex in singleton constructor.
+  Add lock on streams, for correct resolving of concurent << operators.
