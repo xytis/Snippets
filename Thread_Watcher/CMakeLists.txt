@@ -1,17 +1,17 @@
 cmake_minimum_required (VERSION 2.6)
 
-project (LoggerTest)
+project (ThreadWatcher)
 
 ADD_LIBRARY( logger STATIC
-  Logger.cpp
+  ../Logger/Logger.cpp
   )
-
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=gnu++0x")
 
-target_link_libraries(logger)
-file(GLOB LoggerTest_SRC
+link_libraries(pthread logger)
+
+file(GLOB ThreadWatcher_SRC
     "*.hpp"
     "*.cpp"
 )
-add_executable(LoggerTest ${LoggerTest_SRC})
+add_executable(ThreadWatcher ${ThreadWatcher_SRC})

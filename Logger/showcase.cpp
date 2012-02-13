@@ -15,7 +15,7 @@ int main()
   warn << "Some warning" << std::endl;
   debug << "debug text" << std::endl;
 
-  Log::Logger::Instance()->formated_output(Log::DEBUG,"debug text\n");
+  Log::formated_output(Log::DEBUG,"debug text %i %i\n", 5,5);
 
   //Not working...
   /*

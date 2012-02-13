@@ -11,10 +11,10 @@
 #define warn Log::Logger::Instance()->get_stream_with_header(Log::WARNING)
 #define debug Log::Logger::Instance()->get_stream_with_header(Log::DEBUG) << '[' << __FILE__ << ' ' << __LINE__ << ']'
 
-#define logf(...) Log::Logger::Instance()->formated_output(Log::INFO, __VA_ARGS__)
-#define errf(...) Log::Logger::Instance()->formated_output(Log::ERROR, __VA_ARGS__)
-#define warnf(...) Log::Logger::Instance()->formated_output(Log::WARNING, __VA_ARGS__)
-#define debugf(...) Log::Logger::Instance()->formated_debug(__FILE__, __LINE__, __VA_ARGS__)
+#define logf(...) Log::formated_output(Log::INFO, __VA_ARGS__)
+#define errf(...) Log::formated_output(Log::ERROR, __VA_ARGS__)
+#define warnf(...) Log::formated_output(Log::WARNING, __VA_ARGS__)
+#define debugf(...) Log::formated_debug(__FILE__, __LINE__, __VA_ARGS__)
 
 namespace Log
 {
@@ -26,9 +26,16 @@ namespace Log
     DEBUG
   };
 
+  //Headers
   std::string empty(PRIORITY priority);
   std::string date(PRIORITY priority);
   std::string date_priority(PRIORITY priority); //Default
+  //Printers
+  void formated_output(PRIORITY priority, const char *s);
+  template<typename T, typename... Args>
+  void formated_output(PRIORITY priority,const char *s, T value, Args... args);
+  template<typename... Args>
+  void formated_debug(const char *s, int line, const char *f, Args... args);
 
   class Logger
   {
@@ -45,9 +52,9 @@ namespace Log
     //Singleton part
 	Logger();
     ~Logger();
-    Logger(Logger &); //Empty
-    Logger& operator=(Logger const&); //Empty
-
+    Logger(Logger &); //Non existant
+    Logger& operator=(Logger const&); //Non existant
+    
     static Logger * m_instance;
   public:
     static Logger * Instance();
@@ -59,13 +66,14 @@ namespace Log
 
     void set_output(PRIORITY priority, std::ostream * output);
     void set_header(std::string (*header_generator) (PRIORITY));
-    
-    void formated_output(PRIORITY priority, const char *s);
+
+    friend void formated_output(PRIORITY priority, const char *s);
     template<typename T, typename... Args>
-    void formated_output(PRIORITY priority,const char *s, T value, Args... args);
+    friend void formated_output(PRIORITY priority,const char *s, T value, Args... args);
     template<typename... Args>
-    void formated_debug(const char *s, int line, const char *f, Args... args);
-  };  
+    friend void formated_debug(const char *s, int line, const char *f, Args... args);
+    
+  };
 }
 
 #endif
