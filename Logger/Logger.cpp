@@ -114,52 +114,27 @@ namespace Log
     header = header_generator;
   }
 
-  void formated_output(PRIORITY priority, const char *s)
+  void Logger::formated_output(std::ostream & output, const char *s)
   {
-    Logger * logger = Logger::Instance();
-    std::ostream & output = logger->get_stream(priority);
-    if (logger->header_flag)
-    {
-      output << (*logger->header)(priority);
-      logger->header_flag = false;
-    }
     while (*s) {
       if (*s == '%' && *(++s) != '%')
         throw std::runtime_error("invalid format string: missing arguments");
       output << *s++;
     }
-    logger->header_flag = true; //End of recursive parsing
   }
   
   template<typename T, typename... Args>
-  void formated_output(PRIORITY priority, const char *s, T value, Args... args)
+  void Logger::formated_output(std::ostream & output, const char *s, T value, Args... args)
   {
-    Logger * logger = Logger::Instance();
-    std::ostream & output = logger->get_stream(priority);
-    if (logger->header_flag)
-    {
-      output << (*logger->header)(priority);
-      logger->header_flag = false;
-    }
     while (*s) {
       if (*s == '%' && *(++s) != '%') {
         output << value;
         ++s;
-        formated_output(priority, s, args...); // call even when *s == 0 to detect extra arguments
+        formated_output(output, s, args...); // call even when *s == 0 to detect extra arguments
         return;
       }
       output << *s++;
     }
     throw std::logic_error("extra arguments provided to formated_output");
-  }
-
-  template<typename... Args>
-  void formated_debug(const char *s, int line, const char *f, Args... args)
-  {
-    char new_format[(unsigned)strlen(f)+6];
-    strcpy (new_format,"[%s %i]");
-    strcat (new_format, f);
-    std::cerr << new_format << std::endl;
-    formated_output(DEBUG, new_format, s, line, args...);
   }
 }

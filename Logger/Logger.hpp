@@ -9,12 +9,16 @@
 #define log Log::Logger::Instance()->get_stream_with_header(Log::INFO)
 #define err Log::Logger::Instance()->get_stream_with_header(Log::ERROR)
 #define warn Log::Logger::Instance()->get_stream_with_header(Log::WARNING)
-#define debug Log::Logger::Instance()->get_stream_with_header(Log::DEBUG) << '[' << __FILE__ << ' ' << __LINE__ << ']'
+#define debug Log::Logger::Instance()->get_stream_with_header(Log::DEBUG) << '[' << __FILE__ << ':' << __LINE__ << "] "
 
-#define logf(...) Log::formated_output(Log::INFO, __VA_ARGS__)
-#define errf(...) Log::formated_output(Log::ERROR, __VA_ARGS__)
-#define warnf(...) Log::formated_output(Log::WARNING, __VA_ARGS__)
-#define debugf(...) Log::formated_debug(__FILE__, __LINE__, __VA_ARGS__)
+//Explanation of ## is here: http://gcc.gnu.org/onlinedocs/cpp/Variadic-Macros.html
+
+#define logf(format, ...) Log::Logger::Instance()->formated_output(Log::Logger::Instance()->get_stream_with_header(Log::INFO), format , ##__VA_ARGS__)
+#define errf(format, ...) Log::Logger::Instance()->formated_output(Log::Logger::Instance()->get_stream_with_header(Log::ERROR), format , ##__VA_ARGS__)
+#define warnf(format, ...) Log::Logger::Instance()->formated_output(Log::Logger::Instance()->get_stream_with_header(Log::WARNING), format , ##__VA_ARGS__)
+#define debugf(format, ...) Log::Logger::Instance()->formated_output(Log::Logger::Instance()->get_stream_with_header(Log::DEBUG), (std::string("[%s:%d] ")+ std::string(format)).c_str(), __FILE__, __LINE__ , ##__VA_ARGS__)
+
+
 
 namespace Log
 {
@@ -30,12 +34,7 @@ namespace Log
   std::string empty(PRIORITY priority);
   std::string date(PRIORITY priority);
   std::string date_priority(PRIORITY priority); //Default
-  //Printers
-  void formated_output(PRIORITY priority, const char *s);
-  template<typename T, typename... Args>
-  void formated_output(PRIORITY priority,const char *s, T value, Args... args);
-  template<typename... Args>
-  void formated_debug(const char *s, int line, const char *f, Args... args);
+  
 
   class Logger
   {
@@ -66,13 +65,10 @@ namespace Log
 
     void set_output(PRIORITY priority, std::ostream * output);
     void set_header(std::string (*header_generator) (PRIORITY));
-
-    friend void formated_output(PRIORITY priority, const char *s);
-    template<typename T, typename... Args>
-    friend void formated_output(PRIORITY priority,const char *s, T value, Args... args);
-    template<typename... Args>
-    friend void formated_debug(const char *s, int line, const char *f, Args... args);
     
+    void formated_output(std::ostream &, const char *s);
+    template<typename T, typename... Args>
+    void formated_output(std::ostream &,const char *s, T value, Args... args);
   };
 }
 
