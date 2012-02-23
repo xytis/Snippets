@@ -1,16 +1,10 @@
 cmake_minimum_required (VERSION 2.6)
 
-project (LoggerTest)
-
-ADD_LIBRARY( logger STATIC
-  Logger.cpp
-  )
-
+project (LoggerShowcase)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=gnu++0x")
 
-link_libraries(logger)
-file(GLOB LoggerTest_SRC
+file(GLOB LoggerShowcase_SRC
     "showcase.cpp"
 )
-add_executable(LoggerTest ${LoggerTest_SRC})
+add_executable(LoggerShowcase ${LoggerShowcase_SRC})
