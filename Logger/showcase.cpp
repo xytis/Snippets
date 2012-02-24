@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+
 #include "Logger.hpp"
 
 std::string header (Log::PRIORITY)
