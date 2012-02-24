@@ -29,8 +29,11 @@ public:
   // Manually destroy an existing instance. Call at end of program to clean up.
   static void destroy()
   {
-	delete m_pInstance;
-	m_pInstance = NULL;
+      if (m_pInstance)
+      {
+          delete m_pInstance;
+      }
+      m_pInstance = NULL;
   }
   
 private:
