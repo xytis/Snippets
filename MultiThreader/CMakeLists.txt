@@ -1,0 +1,13 @@
+cmake_minimum_required (VERSION 2.6)
+
+project (MultiThreader)
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=gnu++0x")
+
+link_libraries(pthread)
+
+file(GLOB MultiThreader_SRC
+    "*.hpp"
+    "*.cpp"
+)
+add_executable(MultiThreader ${MultiThreader_SRC})
