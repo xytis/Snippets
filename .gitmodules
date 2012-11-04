@@ -1,0 +1,6 @@
+[submodule "Singleton"]
+	path = Singleton
+	url = git@github.com:xytis/typedef-singleton.git
+[submodule "Logger"]
+	path = Logger
+	url = git@github.com:xytis/tiny-logger.git
