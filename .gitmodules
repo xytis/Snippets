@@ -4,3 +4,6 @@
 [submodule "Logger"]
 	path = Logger
 	url = git@github.com:xytis/tiny-logger.git
+[submodule "ThreadWatcher"]
+	path = ThreadWatcher
+	url = git@github.com:xytis/thread_watcher.git
