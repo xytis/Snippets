@@ -7,3 +7,6 @@
 [submodule "ThreadWatcher"]
 	path = ThreadWatcher
 	url = git@github.com:xytis/thread_watcher.git
+[submodule "Skeleton"]
+	path = Skeleton
+	url = git@github.com:xytis/cmake-skeleton.git
