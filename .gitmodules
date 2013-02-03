@@ -6,7 +6,7 @@
 	url = git@github.com:xytis/tiny-logger.git
 [submodule "ThreadWatcher"]
 	path = ThreadWatcher
-	url = git@github.com:xytis/thread_watcher.git
+	url = git@github.com:xytis/thread-watcher.git
 [submodule "Skeleton"]
 	path = Skeleton
 	url = git@github.com:xytis/cmake-skeleton.git
