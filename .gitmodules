@@ -10,3 +10,6 @@
 [submodule "Skeleton"]
 	path = Skeleton
 	url = git@github.com:xytis/cmake-skeleton.git
+[submodule "HeapAllocator"]
+	path = HeapAllocator
+	url = git@github.com:xytis/heap-allocator.git
