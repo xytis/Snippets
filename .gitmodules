@@ -13,3 +13,6 @@
 [submodule "HeapAllocator"]
 	path = HeapAllocator
 	url = git@github.com:xytis/heap-allocator.git
+[submodule "MiniBind"]
+	path = MiniBind
+	url = git@github.com:xytis/mini-bind.git
